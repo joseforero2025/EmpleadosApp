@@ -32,7 +32,7 @@ public IActionResult GetById(int id)
     return Ok(empleado);
 }
 [HttpPost]
-public IActionResult Create(Employee nuevoEmpleado)
+public  Create(Employee nuevoEmpleado)
 {
     if (nuevoEmpleado.Salario < 0)
     {
