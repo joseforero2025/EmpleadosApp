@@ -19,4 +19,38 @@ public class EmployeesController : ControllerBase
     {
         return Ok(_empleados);
     }
+    [HttpGet("{id}")]
+public IActionResult GetById(int id)
+{
+    var empleado = _empleados.FirstOrDefault(e => e.Id == id);
+
+    if (empleado == null)
+    {
+        return NotFound();
+    }
+
+    return Ok(empleado);
+}
+[HttpPost]
+public IActionResult Create(Employee nuevoEmpleado)
+{
+    if (nuevoEmpleado.Salario < 0)
+    {
+        return BadRequest("El salario no puede ser negativo");
+    }
+
+    nuevoEmpleado.Id = _empleados.Max(e => e.Id) + 1;
+    _empleados.Add(nuevoEmpleado);
+
+    return CreatedAtAction(nameof(GetById), new { id = nuevoEmpleado.Id }, nuevoEmpleado);
+}
+[HttpGet("buscar")]
+    public IActionResult BuscarPorCargo([FromQuery] string cargo)
+    {
+        var resultado = _empleados
+            .Where(e => e.Cargo.Contains(cargo, StringComparison.OrdinalIgnoreCase))
+            .ToList();
+
+        return Ok(resultado);
+    }
 }
