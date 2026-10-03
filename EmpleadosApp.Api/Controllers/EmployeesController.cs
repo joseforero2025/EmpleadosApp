@@ -1,5 +1,7 @@
-using Microsoft.AspNetCore.Mvc;
+using EmpleadosApp.Api.Data;
 using EmpleadosApp.Api.Models;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace EmpleadosApp.Api.Controllers;
 
@@ -7,50 +9,105 @@ namespace EmpleadosApp.Api.Controllers;
 [Route("employees")]
 public class EmployeesController : ControllerBase
 {
-    private static List<Employee> _empleados = new()
+    private readonly AppDbContext _context;
+
+    public EmployeesController(AppDbContext context)
     {
-        new Employee { Id = 1, Nombre = "Ana", Cargo = "Contadora", Salario = 3500000, FechaIngreso = DateTime.Now, DepartamentoId = 1 },
-        new Employee { Id = 2, Nombre = "Luis", Cargo = "Analista", Salario = 2800000, FechaIngreso = DateTime.Now, DepartamentoId = 2 },
-        new Employee { Id = 3, Nombre = "Marta", Cargo = "Gerente", Salario = 5200000, FechaIngreso = DateTime.Now, DepartamentoId = 1 }
-    };
+        _context = context;
+    }
 
     [HttpGet]
-    public IActionResult GetAll()
+    public async Task<IActionResult> GetAll()
     {
-        return Ok(_empleados);
-    }
-    [HttpGet("{id}")]
-public IActionResult GetById(int id)
-{
-    var empleado = _empleados.FirstOrDefault(e => e.Id == id);
-
-    if (empleado == null)
-    {
-        return NotFound();
+        var empleados = await _context.Employees.AsNoTracking().ToListAsync();
+        return Ok(empleados);
     }
 
-    return Ok(empleado);
-}
-[HttpPost]
-public  Create(Employee nuevoEmpleado)
-{
-    if (nuevoEmpleado.Salario < 0)
+    [HttpGet("{id:int}")]
+    public async Task<IActionResult> GetById(int id)
     {
-        return BadRequest("El salario no puede ser negativo");
+        var empleado = await _context.Employees.AsNoTracking().FirstOrDefaultAsync(e => e.Id == id);
+
+        if (empleado == null)
+        {
+            return NotFound();
+        }
+
+        return Ok(empleado);
     }
 
-    nuevoEmpleado.Id = _empleados.Max(e => e.Id) + 1;
-    _empleados.Add(nuevoEmpleado);
-
-    return CreatedAtAction(nameof(GetById), new { id = nuevoEmpleado.Id }, nuevoEmpleado);
-}
-[HttpGet("buscar")]
-    public IActionResult BuscarPorCargo([FromQuery] string cargo)
+    [HttpPost]
+    public async Task<IActionResult> Create(Employee nuevoEmpleado)
     {
-        var resultado = _empleados
-            .Where(e => e.Cargo.Contains(cargo, StringComparison.OrdinalIgnoreCase))
-            .ToList();
+        if (!ModelState.IsValid)
+        {
+            return ValidationProblem(ModelState);
+        }
 
-        return Ok(resultado);
+        if (nuevoEmpleado.Salario < 0)
+        {
+            return BadRequest("El salario no puede ser negativo.");
+        }
+
+        var departamentoExiste = await _context.Departments.AnyAsync(d => d.Id == nuevoEmpleado.DepartamentoId);
+        if (!departamentoExiste)
+        {
+            return BadRequest("El departamento indicado no existe.");
+        }
+
+        _context.Employees.Add(nuevoEmpleado);
+        await _context.SaveChangesAsync();
+
+        return CreatedAtAction(nameof(GetById), new { id = nuevoEmpleado.Id }, nuevoEmpleado);
+    }
+
+    [HttpPut("{id:int}")]
+    public async Task<IActionResult> Update(int id, Employee empleadoActualizado)
+    {
+        if (id != empleadoActualizado.Id)
+        {
+            return BadRequest("El id de la ruta no coincide con el del empleado.");
+        }
+
+        if (!ModelState.IsValid)
+        {
+            return ValidationProblem(ModelState);
+        }
+
+        var empleadoExistente = await _context.Employees.FirstOrDefaultAsync(e => e.Id == id);
+        if (empleadoExistente == null)
+        {
+            return NotFound();
+        }
+
+        var departamentoExiste = await _context.Departments.AnyAsync(d => d.Id == empleadoActualizado.DepartamentoId);
+        if (!departamentoExiste)
+        {
+            return BadRequest("El departamento indicado no existe.");
+        }
+
+        empleadoExistente.Nombre = empleadoActualizado.Nombre;
+        empleadoExistente.Telefono = empleadoActualizado.Telefono;
+        empleadoExistente.Cargo = empleadoActualizado.Cargo;
+        empleadoExistente.Salario = empleadoActualizado.Salario;
+        empleadoExistente.FechaIngreso = empleadoActualizado.FechaIngreso;
+        empleadoExistente.DepartamentoId = empleadoActualizado.DepartamentoId;
+
+        await _context.SaveChangesAsync();
+        return NoContent();
+    }
+
+    [HttpDelete("{id:int}")]
+    public async Task<IActionResult> Delete(int id)
+    {
+        var empleado = await _context.Employees.FirstOrDefaultAsync(e => e.Id == id);
+        if (empleado == null)
+        {
+            return NotFound();
+        }
+
+        _context.Employees.Remove(empleado);
+        await _context.SaveChangesAsync();
+        return NoContent();
     }
 }
