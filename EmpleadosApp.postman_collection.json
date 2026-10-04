@@ -1,0 +1,105 @@
+{
+  "info": {
+    "name": "EmpleadosApp API",
+    "description": "Endpoints CRUD de empleados (EmployeesController).",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    { "key": "baseUrl", "value": "http://localhost:5249" },
+    { "key": "employeeId", "value": "1" }
+  ],
+  "item": [
+    {
+      "name": "Employees",
+      "item": [
+        {
+          "name": "Listar empleados",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/employees",
+              "host": ["{{baseUrl}}"],
+              "path": ["employees"]
+            }
+          }
+        },
+        {
+          "name": "Obtener empleado por id",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/employees/{{employeeId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["employees", "{{employeeId}}"]
+            }
+          }
+        },
+        {
+          "name": "Crear empleado",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if (pm.response.code === 201) {",
+                  "    pm.collectionVariables.set(\"employeeId\", pm.response.json().id);",
+                  "}"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nombre\": \"Carlos\",\n  \"telefono\": \"3009998877\",\n  \"cargo\": \"Desarrollador\",\n  \"salario\": 4000000,\n  \"fechaIngreso\": \"2026-01-15\",\n  \"departamento\": \"TI\"\n}",
+              "options": { "raw": { "language": "json" } }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/employees",
+              "host": ["{{baseUrl}}"],
+              "path": ["employees"]
+            }
+          }
+        },
+        {
+          "name": "Actualizar empleado",
+          "request": {
+            "method": "PUT",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"id\": {{employeeId}},\n  \"nombre\": \"Carlos Pérez\",\n  \"telefono\": \"3009998877\",\n  \"cargo\": \"Desarrollador Senior\",\n  \"salario\": 4800000,\n  \"fechaIngreso\": \"2026-01-15\",\n  \"departamento\": \"TI\"\n}",
+              "options": { "raw": { "language": "json" } }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/employees/{{employeeId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["employees", "{{employeeId}}"]
+            }
+          }
+        },
+        {
+          "name": "Eliminar empleado",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/employees/{{employeeId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["employees", "{{employeeId}}"]
+            }
+          }
+        }
+      ]
+    }
+  ]
+}
