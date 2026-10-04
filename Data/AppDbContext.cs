@@ -10,7 +10,6 @@ public class AppDbContext : DbContext
     }
 
     public DbSet<Employee> Employees => Set<Employee>();
-    public DbSet<Department> Departments => Set<Department>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -26,8 +25,8 @@ public class AppDbContext : DbContext
             .Property(e => e.Telefono)
             .HasMaxLength(20);
 
-        modelBuilder.Entity<Department>()
-            .Property(d => d.Nombre)
+        modelBuilder.Entity<Employee>()
+            .Property(e => e.Departamento)
             .HasMaxLength(100);
 
         base.OnModelCreating(modelBuilder);
