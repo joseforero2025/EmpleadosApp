@@ -49,12 +49,6 @@ public class EmployeesController : ControllerBase
             return BadRequest("El salario no puede ser negativo.");
         }
 
-        var departamentoExiste = await _context.Departments.AnyAsync(d => d.Id == nuevoEmpleado.DepartamentoId);
-        if (!departamentoExiste)
-        {
-            return BadRequest("El departamento indicado no existe.");
-        }
-
         _context.Employees.Add(nuevoEmpleado);
         await _context.SaveChangesAsync();
 
@@ -80,18 +74,12 @@ public class EmployeesController : ControllerBase
             return NotFound();
         }
 
-        var departamentoExiste = await _context.Departments.AnyAsync(d => d.Id == empleadoActualizado.DepartamentoId);
-        if (!departamentoExiste)
-        {
-            return BadRequest("El departamento indicado no existe.");
-        }
-
         empleadoExistente.Nombre = empleadoActualizado.Nombre;
         empleadoExistente.Telefono = empleadoActualizado.Telefono;
         empleadoExistente.Cargo = empleadoActualizado.Cargo;
         empleadoExistente.Salario = empleadoActualizado.Salario;
         empleadoExistente.FechaIngreso = empleadoActualizado.FechaIngreso;
-        empleadoExistente.DepartamentoId = empleadoActualizado.DepartamentoId;
+        empleadoExistente.Departamento = empleadoActualizado.Departamento;
 
         await _context.SaveChangesAsync();
         return NoContent();

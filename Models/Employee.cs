@@ -23,9 +23,9 @@ public class Employee
     [DataType(DataType.Date)]
     public DateTime FechaIngreso { get; set; }
 
-    [Range(1, int.MaxValue, ErrorMessage = "El departamento debe ser válido.")]
-    public int DepartamentoId { get; set; }
+    [Required(ErrorMessage = "El departamento es obligatorio.")]
+    [StringLength(100, ErrorMessage = "El departamento no puede superar los 100 caracteres.")]
+    public string Departamento { get; set; } = string.Empty;
 }
-
 
 
