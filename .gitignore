@@ -1,3 +1,25 @@
-﻿bin/
-obj/ 
+# Compilación
+bin/
+obj/
+
+# Base de datos SQLite (incluye archivos temporales -shm / -wal / -journal)
 *.db
+*.db-shm
+*.db-wal
+*.db-journal
+
+# Visual Studio / Rider / VS Code
+.vs/
+.idea/
+.vscode/
+*.user
+*.suo
+
+# Secretos y configuración local
+appsettings.*.local.json
+*.env
+
+# Logs y sistema operativo
+*.log
+Thumbs.db
+.DS_Store
