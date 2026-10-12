@@ -53,6 +53,7 @@ La base de datos (`EmpleadosApp.db`) se crea automáticamente la primera vez, co
 {
   "nombre": "Ana",
   "telefono": "3001112233",
+  "email": "ana@empresa.com",
   "cargo": "Contadora",
   "salario": 3500000,
   "fechaIngreso": "2025-01-15",

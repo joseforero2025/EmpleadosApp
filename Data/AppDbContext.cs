@@ -26,6 +26,10 @@ public class AppDbContext : DbContext
             .HasMaxLength(20);
 
         modelBuilder.Entity<Employee>()
+            .Property(e => e.Email)
+            .HasMaxLength(100);
+
+        modelBuilder.Entity<Employee>()
             .Property(e => e.Departamento)
             .HasMaxLength(100);
 
