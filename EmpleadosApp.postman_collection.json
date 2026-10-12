@@ -58,7 +58,7 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"nombre\": \"Carlos\",\n  \"telefono\": \"3009998877\",\n  \"cargo\": \"Desarrollador\",\n  \"salario\": 4000000,\n  \"fechaIngreso\": \"2026-01-15\",\n  \"departamento\": \"TI\"\n}",
+              "raw": "{\n  \"nombre\": \"Carlos\",\n  \"telefono\": \"3009998877\",\n  \"email\": \"carlos@empresa.com\",\n  \"cargo\": \"Desarrollador\",\n  \"salario\": 4000000,\n  \"fechaIngreso\": \"2026-01-15\",\n  \"departamento\": \"TI\"\n}",
               "options": { "raw": { "language": "json" } }
             },
             "url": {
@@ -77,7 +77,7 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"id\": {{employeeId}},\n  \"nombre\": \"Carlos Pérez\",\n  \"telefono\": \"3009998877\",\n  \"cargo\": \"Desarrollador Senior\",\n  \"salario\": 4800000,\n  \"fechaIngreso\": \"2026-01-15\",\n  \"departamento\": \"TI\"\n}",
+              "raw": "{\n  \"id\": {{employeeId}},\n  \"nombre\": \"Carlos Pérez\",\n  \"telefono\": \"3009998877\",\n  \"email\": \"carlos.perez@empresa.com\",\n  \"cargo\": \"Desarrollador Senior\",\n  \"salario\": 4800000,\n  \"fechaIngreso\": \"2026-01-15\",\n  \"departamento\": \"TI\"\n}",
               "options": { "raw": { "language": "json" } }
             },
             "url": {
