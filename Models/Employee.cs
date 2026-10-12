@@ -13,6 +13,10 @@ public class Employee
     [StringLength(20, ErrorMessage = "El teléfono no puede superar los 20 caracteres.")]
     public string Telefono { get; set; } = string.Empty;
 
+    [EmailAddress(ErrorMessage = "El correo no tiene un formato válido.")]
+    [StringLength(100, ErrorMessage = "El correo no puede superar los 100 caracteres.")]
+    public string? Email { get; set; }
+
     [Required(ErrorMessage = "El cargo es obligatorio.")]
     [StringLength(60, ErrorMessage = "El cargo no puede superar los 60 caracteres.")]
     public string Cargo { get; set; } = string.Empty;

@@ -76,6 +76,7 @@ public class EmployeesController : ControllerBase
 
         empleadoExistente.Nombre = empleadoActualizado.Nombre;
         empleadoExistente.Telefono = empleadoActualizado.Telefono;
+        empleadoExistente.Email = empleadoActualizado.Email;
         empleadoExistente.Cargo = empleadoActualizado.Cargo;
         empleadoExistente.Salario = empleadoActualizado.Salario;
         empleadoExistente.FechaIngreso = empleadoActualizado.FechaIngreso;
