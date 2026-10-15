@@ -36,6 +36,23 @@ public class EmployeesController : ControllerBase
         return Ok(empleado);
     }
 
+    [HttpGet("email/{email}")]
+    public async Task<IActionResult> GetByEmail(string email)
+    {
+        var emailBuscado = email.Trim().ToLower();
+
+        var empleado = await _context.Employees
+            .AsNoTracking()
+            .FirstOrDefaultAsync(e => e.Email != null && e.Email.ToLower() == emailBuscado);
+
+        if (empleado == null)
+        {
+            return NotFound($"No se encontró un empleado con el correo {email}.");
+        }
+
+        return Ok(empleado);
+    }
+
     [HttpPost]
     public async Task<IActionResult> Create(Employee nuevoEmpleado)
     {

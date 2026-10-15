@@ -6,7 +6,8 @@
   },
   "variable": [
     { "key": "baseUrl", "value": "http://localhost:5249" },
-    { "key": "employeeId", "value": "1" }
+    { "key": "employeeId", "value": "1" },
+    { "key": "employeeEmail", "value": "ana@empresa.com" }
   ],
   "item": [
     {
@@ -33,6 +34,18 @@
               "raw": "{{baseUrl}}/employees/{{employeeId}}",
               "host": ["{{baseUrl}}"],
               "path": ["employees", "{{employeeId}}"]
+            }
+          }
+        },
+        {
+          "name": "Buscar empleado por correo",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/employees/email/{{employeeEmail}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["employees", "email", "{{employeeEmail}}"]
             }
           }
         },

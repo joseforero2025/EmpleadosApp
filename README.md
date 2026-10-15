@@ -39,13 +39,14 @@ La base de datos (`EmpleadosApp.db`) se crea automáticamente la primera vez, co
 
 ## Endpoints
 
-| Método | Ruta              | Descripción                |
-|--------|-------------------|----------------------------|
-| GET    | `/employees`      | Lista todos los empleados  |
-| GET    | `/employees/{id}` | Obtiene un empleado por id |
-| POST   | `/employees`      | Crea un empleado           |
-| PUT    | `/employees/{id}` | Actualiza un empleado      |
-| DELETE | `/employees/{id}` | Elimina un empleado        |
+| Método | Ruta                       | Descripción                    |
+|--------|----------------------------|--------------------------------|
+| GET    | `/employees`               | Lista todos los empleados      |
+| GET    | `/employees/{id}`          | Obtiene un empleado por id     |
+| GET    | `/employees/email/{email}` | Busca un empleado por correo   |
+| POST   | `/employees`               | Crea un empleado               |
+| PUT    | `/employees/{id}`          | Actualiza un empleado          |
+| DELETE | `/employees/{id}`          | Elimina un empleado            |
 
 ## Ejemplo de empleado (JSON)
 
